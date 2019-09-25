@@ -14,6 +14,7 @@
     <groupId>cn.llyong</groupId>
     <artifactId>netty-im</artifactId>
     <version>1.0.RELEASE</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>im-common</module>

@@ -1,12 +1,13 @@
-package cn.llyong.netty.im.client;
+package cn.llyong.netty.im.client.core;
 
+import cn.llyong.netty.im.client.handler.ClientStringHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ImConnection {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+//    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Channel channel;
 
@@ -38,15 +39,18 @@ public class ImConnection {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel channel) throws Exception {
-                            channel.pipeline().addLast();
+                            channel.pipeline().addLast("decoder", new StringDecoder());
+                            channel.pipeline().addLast("encoder", new StringEncoder());
+                            channel.pipeline().addLast(new ClientStringHandler());
                         }
                     });
-            ChannelFuture future = bootstrap.connect();
+            ChannelFuture future = bootstrap.connect(host, port);
             channel = future.channel();
         } catch (Exception e) {
-            logger.error("", e);
+            e.printStackTrace();
+//            logger.error("", e);
         } finally {
-            workGroup.shutdownGracefully();
+//            workGroup.shutdownGracefully();
         }
 
     }

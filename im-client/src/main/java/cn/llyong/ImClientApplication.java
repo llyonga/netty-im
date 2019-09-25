@@ -1,9 +1,8 @@
 package cn.llyong;
 
-import cn.llyong.netty.im.client.ImConnection;
+import cn.llyong.netty.im.client.core.ImConnection;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @description: 
@@ -12,14 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @time: 10:27 上午
  * @version: 1.0
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class ImClientApplication {
 
     public static void main(String[] args) {
-        new Thread(() ->{
-            Channel channel = new ImConnection().connection("localhost", 5678);
-        }).start();
-        SpringApplication.run(ImClientApplication.class, args);
+        Channel channel = new ImConnection().connection("localhost", 5678);
+        channel.writeAndFlush("你好啊，我是渣渣辉！");
+//        SpringApplication.run(ImClientApplication.class, args);
     }
 
 }
