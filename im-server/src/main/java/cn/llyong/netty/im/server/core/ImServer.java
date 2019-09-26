@@ -1,6 +1,7 @@
 package cn.llyong.netty.im.server.core;
 
 import cn.llyong.marshalling.MarshallingCodeFactory;
+import cn.llyong.netty.im.server.handler.ServerHeartBeatHandler;
 import cn.llyong.netty.im.server.handler.ServerMarshallingHandler;
 import cn.llyong.netty.im.server.handler.ServerStringHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -14,6 +15,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,10 +52,13 @@ public class ImServer {
 //                        channel.pipeline().addLast(new StringEncoder());
 //                        channel.pipeline().addLast(new ServerStringHandler());
 
+                        //心跳机制
+                        channel.pipeline().addLast(new IdleStateHandler(5, 0, 0, TimeUnit.SECONDS));
                         // 添加Jboss的序列化，编解码工具
                         channel.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder());
                         channel.pipeline().addLast(MarshallingCodeFactory.buildMarshallingDecoder());
                         channel.pipeline().addLast(new ServerMarshallingHandler());
+                        channel.pipeline().addLast(new ServerHeartBeatHandler());
                     }
                 });
         try {
