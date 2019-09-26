@@ -1,5 +1,7 @@
 package cn.llyong.netty.im.client.core;
 
+import cn.llyong.marshalling.MarshallingCodeFactory;
+import cn.llyong.netty.im.client.handler.ClientMarshallingHandler;
 import cn.llyong.netty.im.client.handler.ClientStringHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -39,9 +41,14 @@ public class ImConnection {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel channel) throws Exception {
-                            channel.pipeline().addLast("decoder", new StringDecoder());
-                            channel.pipeline().addLast("encoder", new StringEncoder());
-                            channel.pipeline().addLast(new ClientStringHandler());
+//                            channel.pipeline().addLast(new StringDecoder());
+//                            channel.pipeline().addLast(new StringEncoder());
+
+                            // 添加Jboss的序列化，编解码工具
+                            channel.pipeline().addLast(MarshallingCodeFactory.buildMarshallingEncoder());
+                            channel.pipeline().addLast(MarshallingCodeFactory.buildMarshallingDecoder());
+//                            channel.pipeline().addLast(new ClientStringHandler());
+                            channel.pipeline().addLast(new ClientMarshallingHandler());
                         }
                     });
             ChannelFuture future = bootstrap.connect(host, port);

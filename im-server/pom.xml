@@ -27,6 +27,11 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.41.Final</version>
         </dependency>
+        <dependency>
+            <groupId>cn.llyong</groupId>
+            <artifactId>im-common</artifactId>
+            <version>1.0.RELEASE</version>
+        </dependency>
 
 
 
