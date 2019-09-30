@@ -2,7 +2,6 @@ package cn.llyong;
 
 import cn.llyong.bo.Message;
 import cn.llyong.netty.im.client.core.ImConnection;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 
 import java.time.Instant;

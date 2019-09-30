@@ -3,7 +3,6 @@ package cn.llyong.netty.im.server.core;
 import cn.llyong.marshalling.MarshallingCodeFactory;
 import cn.llyong.netty.im.server.handler.ServerHeartBeatHandler;
 import cn.llyong.netty.im.server.handler.ServerMarshallingHandler;
-import cn.llyong.netty.im.server.handler.ServerStringHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -13,8 +12,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.util.concurrent.TimeUnit;
