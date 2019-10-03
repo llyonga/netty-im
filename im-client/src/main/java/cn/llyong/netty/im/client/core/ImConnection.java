@@ -2,14 +2,11 @@ package cn.llyong.netty.im.client.core;
 
 import cn.llyong.marshalling.MarshallingCodeFactory;
 import cn.llyong.netty.im.client.handler.ClientMarshallingHandler;
-import cn.llyong.netty.im.client.handler.ClientStringHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,9 +23,16 @@ public class ImConnection {
 
     private Channel channel;
 
+    private ChannelFuture channelFuture;
+
     public Channel connection(String host, int port) {
         doConnection(host, port);
         return this.channel;
+    }
+
+    public ChannelFuture connection2(String host, int port) {
+        doConnection(host, port);
+        return this.channelFuture;
     }
 
     private void doConnection(String host, int port) {
@@ -51,8 +55,8 @@ public class ImConnection {
                             channel.pipeline().addLast(new ClientMarshallingHandler());
                         }
                     });
-            ChannelFuture future = bootstrap.connect(host, port);
-            channel = future.channel();
+             channelFuture = bootstrap.connect(host, port);
+//            channel = future.channel();
         } catch (Exception e) {
             e.printStackTrace();
 //            logger.error("", e);

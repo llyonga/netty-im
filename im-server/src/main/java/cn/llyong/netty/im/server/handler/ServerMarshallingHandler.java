@@ -2,7 +2,7 @@ package cn.llyong.netty.im.server.handler;
 
 import cn.llyong.bo.Message;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -14,11 +14,10 @@ import java.util.UUID;
  * @time: 11:06 上午
  * @version: 1.0
  */
-public class ServerMarshallingHandler extends ChannelInboundHandlerAdapter {
+public class ServerMarshallingHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        Message message = (Message) msg;
+    protected void channelRead0(ChannelHandlerContext ctx, Message message) throws Exception {
         System.out.println("服务端收到消息：" + message.getContent());
         message = new Message();
         message.setMsgId(UUID.randomUUID().toString().replace("-",""));
